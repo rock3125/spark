@@ -10,6 +10,7 @@ import org.apache.spark.sql.Row
 import org.apache.spark.sql.SparkSession
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import uk.org.lidalia.sysoutslf4j.context.SysOutOverSLF4J
 
 
 @SpringBootApplication
@@ -18,6 +19,8 @@ open class Main
 
 // need to add this to JVM options: --add-exports java.base/sun.nio.ch=ALL-UNNAMED
 fun main(args: Array<String>) {
+    SysOutOverSLF4J.registerLoggingSystem("org.slf4j.simple.SimpleLogger")
+    SysOutOverSLF4J.sendSystemOutAndErrToSLF4J()
 
     val logger = LoggerFactory.getLogger(Main::class.java)
     logger.info("test")

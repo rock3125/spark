@@ -67,6 +67,8 @@ dependencies {
         exclude group: "com.google.code.gson"
     }
 
+    api(group: "uk.org.lidalia", name: "sysout-over-slf4j", version: "1.0.2")
+
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 }
 
