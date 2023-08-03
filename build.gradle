@@ -40,6 +40,33 @@ dependencies {
         exclude group: "org.springframework", module: "spring-web"
     }
 
+    implementation(group: "org.apache.avro", name: "avro", version: "1.11.2") {
+        exclude group: "org.slf4j"
+        exclude group: "io.netty"
+        exclude group: "com.google.code.gson"
+    }
+    implementation(group: "org.apache.parquet", name: "parquet-avro", version: "1.13.1") {
+        exclude group: "org.slf4j"
+        exclude group: "io.netty"
+        exclude group: "com.google.code.gson"
+    }
+    implementation(group: "org.apache.parquet", name: "parquet-hadoop", version: "1.13.1") {
+        exclude group: "org.slf4j"
+        exclude group: "log4j"
+        exclude group: "io.netty"
+        exclude group: "com.google.code.gson"
+    }
+    implementation(group: "org.apache.hadoop", name: "hadoop-common", version: "3.3.6") {
+        exclude group: "org.slf4j"
+        exclude group: "io.netty"
+        exclude group: "com.google.code.gson"
+    }
+    implementation(group: "org.apache.hadoop", name: "hadoop-mapreduce-client-core", version: "3.3.6") {
+        exclude group: "org.slf4j"
+        exclude group: "io.netty"
+        exclude group: "com.google.code.gson"
+    }
+
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 }
 
