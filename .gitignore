@@ -45,4 +45,4 @@ bin/
 gradle
 gradlew
 gradlew.bat
-
+data/test.parquet
