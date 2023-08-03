@@ -43,18 +43,11 @@ fun main(args: Array<String>) {
     val sb = StringBuilder()
     sb.append(
         """
-            {"type": "record", "name": "content_collection", "fields": [
-                {"name": "word", "type": "string"}, 
-                {"name": "metadata", "type": "string"}, 
-                {"name": "created", "type": "long"}, 
-                {"name": "url_id", "type": "int"},
-                {"name": "source_id", "type": "int"},
-                {"name": "acl_hash", "type": "int"},
-                {"name": "sentence", "type": "int"},
-                {"name": "offset", "type": "int"},
-                {"name": "tag", "type": "string"},
-                {"name": "score", "type": "float"},
-                {"name": "is_entity", "type": "boolean"}
+            {"type": "record", "name": "sales_report", "fields": [
+                {"name": "region", "type": "string"}, 
+                {"name": "country", "type": "string"}, 
+                {"name": "sold", "type": "int"}, 
+                {"name": "price", "type": "float"}
             ]}
         """.trimIndent()
     )
@@ -66,23 +59,20 @@ fun main(args: Array<String>) {
         .withCompressionCodec(CompressionCodecName.SNAPPY)
         .build()
 
-    val indexRecord = GenericData.Record(schema)
-    indexRecord.put("word", "test")
-    indexRecord.put("metadata", "{body}}")
-    indexRecord.put("created", System.currentTimeMillis())
-    indexRecord.put("url_id", 1)
-    indexRecord.put("source_id", 1)
-    indexRecord.put("acl_hash", "12345")
-    indexRecord.put("sentence", 1)
-    indexRecord.put("offset", 1)
-    indexRecord.put("tag", "NNP")
-    indexRecord.put("score", 1.0f)
-    indexRecord.put("is_entity", false)
+    // write all records to a parquet file for testing
+    for (item in q1.toLocalIterator()) {
 
-    try {
-        pw.write(indexRecord)
-    } catch (ex: ClassCastException) {
-        logger.info("documentRecord.write($indexRecord): ${ex.message ?: ex}")
+        val indexRecord = GenericData.Record(schema)
+        indexRecord.put("region", item[0]?.toString() ?: "")
+        indexRecord.put("country", item[1]?.toString() ?: "")
+        indexRecord.put("sold", item[8]?.toString()?.toIntOrNull() ?: 0)
+        indexRecord.put("price", item[9]?.toString()?.toFloatOrNull() ?: 0.0f)
+
+        try {
+            pw.write(indexRecord)
+        } catch (ex: ClassCastException) {
+            logger.info("documentRecord.write($indexRecord): ${ex.message ?: ex}")
+        }
     }
 
     pw.close()
